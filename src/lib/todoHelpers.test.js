@@ -1,4 +1,4 @@
-import { addTodo, findById, toggleTodo } from './todoHelpers';
+import { addTodo, findById, toggleTodo, updateTodo } from './todoHelpers';
 
 test('add item to todo list', () => {
     const startTodos = [
@@ -43,4 +43,42 @@ test('ToggleTodo should not retun the mutate todo object', () => {
     const startTodo = {id: 2, name: 'two', isComplete: false };    
     const result = toggleTodo(startTodo);
     expect(result).not.toBe(startTodo);
+});
+
+test('UpdateTodo should update by an item', () => {
+    const startTodos = [
+        {id: 1, name: 'one', isComplete: false },
+        {id: 2, name: 'two', isComplete: false },
+        {id: 3, name: 'three', isComplete: false }
+    ]  
+
+    const expected = [
+        {id: 1, name: 'one', isComplete: false },
+        {id: 2, name: 'two', isComplete: true },
+        {id: 3, name: 'three', isComplete: false }
+    ] 
+
+    const updatedTodo = {id: 2, name: 'two', isComplete: true };    
+    
+    const result = updateTodo(startTodos, updatedTodo);
+    expect(result).toEqual(expected);
+});
+
+test('UpdateTodo should not mutate the original array', () => {
+    const startTodos = [
+        {id: 1, name: 'one', isComplete: false },
+        {id: 2, name: 'two', isComplete: false },
+        {id: 3, name: 'three', isComplete: false }
+    ]  
+
+    const expected = [
+        {id: 1, name: 'one', isComplete: false },
+        {id: 2, name: 'two', isComplete: true },
+        {id: 3, name: 'three', isComplete: false }
+    ] 
+
+    const updatedTodo = {id: 2, name: 'two', isComplete: true };    
+    
+    const result = updateTodo(startTodos, updatedTodo);
+    expect(result).not.toBe(startTodos);
 });
