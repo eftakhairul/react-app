@@ -46,3 +46,16 @@ li {
 .error {
   color: red;
 }
+
+li.hover span.delete-item {
+  visibility: visible;
+}
+
+.Footer a{
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.Footer a.active{
+  font-weight: bold;
+}

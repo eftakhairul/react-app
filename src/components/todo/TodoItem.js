@@ -2,7 +2,8 @@ import React from 'react';
 
 export const TodoItem = (props) => (
     <li>
-        <input type='checkbox' defaultChecked={props.isComplete} /> {props.name}
+        <span className='delete-item'><a href='#' onClick={(evt) => props.handleRemove(props.id, evt)}>x</a></span>
+        <input type='checkbox' onChange={ ()=> props.handleToggle(props.id)} checked={props.isComplete} /> {props.name}
     </li>
 );
 

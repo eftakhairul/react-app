@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/todo/TodoForm';
 import {TodoList} from './components/todo/TodoList';
-import {addTodo, generateId} from './lib/todoHelpers';
+import {Footer} from './components/todo/Footer';
+import {addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo} from './lib/todoHelpers';
 
 class App extends Component {
   state = {
@@ -13,6 +14,23 @@ class App extends Component {
       { id: 3, name: 'Ship it', isComplete: false },
     ], 
     currentTodo: ''
+  }
+
+  handleRemove = (id, evt) => {
+    evt.preventDefault();
+    const updatedTodos = removeTodo(this.state.todos, id)
+    this.setState({
+      todos: updatedTodos,
+    })
+  }
+
+  handleToggle = (id) => {
+    const todo = findById(id, this.state.todos);
+    const toggledTodo = toggleTodo(todo);
+    const updatedTodos = updateTodo(this.state.todos, toggledTodo);
+    this.setState({
+      todos: updatedTodos,
+    });
   }
 
   handleInputChange = (evt) => {
@@ -34,7 +52,7 @@ class App extends Component {
       errorMessage: "Please supply a todo",
     });
   }
-  
+
   render() {
     const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit
     return (
@@ -49,8 +67,12 @@ class App extends Component {
          <TodoForm handleSubmit={submitHandler}
          handleInputChange={this.handleInputChange} 
          currentTodo={this.state.currentTodo} />
-         <TodoList todos={this.state.todos}/>
-        </div>  
+
+         <TodoList handleToggle= {this.handleToggle} 
+                   todos={this.state.todos}
+                   handleRemove={this.handleRemove} />
+         <Footer/>          
+        </div> 
       </div>
     );
   }
